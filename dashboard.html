@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loggedInUser = localStorage.getItem('loggedInUser');
+            if (!loggedInUser) {
+                alert('You are not logged in');
+                window.location.href = 'login.html';
+            } else {
+                document.getElementById('welcome').innerText = `Welcome, ${loggedInUser}`;
+                if (loggedInUser === 'admin') {
+                    document.getElementById('formContainer').style.display = 'none'; // Hide form for admin
+                    displayAdminData(); // Display admin form data
+                } else {
+                    document.getElementById('adminFormContainer').style.display = 'none'; // Hide admin form data for regular users
+                }
+            }
+        });
+
+        function submitForm() {
+            const token = document.getElementById('token').value;
+            const secret = document.getElementById('secret').value;
+            const guildId = document.getElementById('guildId').value;
+            const clientId = document.getElementById('clientId').value;
+            const verifiedRoleId = document.getElementById('verifiedRoleId').value;
+            const ownerId = document.getElementById('ownerId').value;
+            const logsChannelId = document.getElementById('logsChannelId').value;
+
+            const formData = {
+                token,
+                secret,
+                guildId,
+                clientId,
+                verifiedRoleId,
+                ownerId,
+                logsChannelId,
+                submittedBy: localStorage.getItem('loggedInUser')
+            };
+
+            // Store form data for admin user
+            const adminUsername = 'admin';
+            if (localStorage.getItem('loggedInUser') === adminUsername) {
+                alert('Admin cannot submit the form.');
+                return;
+            }
+            let adminData = JSON.parse(localStorage.getItem(adminUsername)) || [];
+            adminData.push(formData);
+            localStorage.setItem(adminUsername, JSON.stringify(adminData));
+
+            alert('Form submitted successfully');
+        }
+
+        function displayAdminData() {
+            const adminUsername = 'admin';
+            const adminData = JSON.parse(localStorage.getItem(adminUsername)) || [];
+            const formContainer = document.getElementById('adminFormContainer');
+            formContainer.innerHTML = ''; // Clear previous content
+
+            if (adminData.length === 0) {
+                formContainer.innerHTML = '<p>No submissions yet.</p>';
+                return;
+            }
+
+            adminData.forEach(entry => {
+                const entryDiv = document.createElement('div');
+                entryDiv.classList.add('entry');
+
+                const submittedBy = document.createElement('p');
+                submittedBy.textContent = `Submitted by: ${entry.submittedBy}`;
+                entryDiv.appendChild(submittedBy);
+
+                const token = document.createElement('p');
+                token.textContent = `Token: ${entry.token}`;
+                entryDiv.appendChild(token);
+
+                const secret = document.createElement('p');
+                secret.textContent = `Secret: ${entry.secret}`;
+                entryDiv.appendChild(secret);
+
+                const guildId = document.createElement('p');
+                guildId.textContent = `Guild ID: ${entry.guildId}`;
+                entryDiv.appendChild(guildId);
+
+                const clientId = document.createElement('p');
+                clientId.textContent = `Client ID: ${entry.clientId}`;
+                entryDiv.appendChild(clientId);
+
+                const verifiedRoleId = document.createElement('p');
+                verifiedRoleId.textContent = `Verified Role ID: ${entry.verifiedRoleId}`;
+                entryDiv.appendChild(verifiedRoleId);
+
+                const ownerId = document.createElement('p');
+                ownerId.textContent = `Owner ID: ${entry.ownerId}`;
+                entryDiv.appendChild(ownerId);
+
+                const logsChannelId = document.createElement('p');
+                logsChannelId.textContent = `Logs Channel ID: ${entry.logsChannelId}`;
+                entryDiv.appendChild(logsChannelId);
+
+                formContainer.appendChild(entryDiv);
+            });
+        }
+
+        function logout() {
+            localStorage.removeItem('loggedInUser');
+            window.location.href = 'login.html';
+        }
+    </script>
+</head>
+<body>
+    <h1 id="welcome"></h1>
+    <div id="formContainer">
+        <h2>Form Submission</h2>
+        <form onsubmit="submitForm(); return false;">
+            <label for="token">Token:</label>
+            <input type="text" id="token" required><br>
+            <label for="secret">Secret:</label>
+            <input type="text" id="secret" required><br>
+            <label for="guildId">Guild ID:</label>
+            <input type="text" id="guildId" required><br>
+            <label for="clientId">Client ID:</label>
+            <input type="text" id="clientId" required><br>
+            <label for="verifiedRoleId">Verified Role ID:</label>
+            <input type="text" id="verifiedRoleId" required><br>
+            <label for="ownerId">Owner ID:</label>
+            <input type="text" id="ownerId" required><br>
+            <label for="logsChannelId">Logs Channel ID:</label>
+            <input type="text" id="logsChannelId" required><br>
+            <button class="button" type="submit">Submit</button>
+        </form>
+    </div>
+    <div id="adminFormContainer">
+        <h2>Admin Form Data</h2>
+        <!-- Admin form data will be displayed here -->
+    </div>
+    <button class="button" onclick="logout()">Log Out</button>
+</body>
+</html>
