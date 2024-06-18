@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        function signup() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            
+            const messageElement = document.getElementById('message');
+
+            if(users.some(user => user.username === username)) {
+                messageElement.innerText = 'Username already exists';
+            } else {
+                users.push({ username, password });
+                localStorage.setItem('users', JSON.stringify(users));
+                messageElement.innerText = 'Sign up successful';
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 1000); // Redirect after 1 second
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Sign Up</h1>
+    <form onsubmit="signup(); return false;">
+        <label for="username">Username:</label>
+        <input type="text" id="username" required><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" required><br>
+        <button class="button" type="submit">Sign Up</button>
+    </form>
+    <p id="message"></p>
+    <button class="button" onclick="location.href='index.html'">Back</button>
+</body>
+</html>
