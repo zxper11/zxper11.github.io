@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        function signup() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Retrieve users data from localStorage
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+
+            // Check if username already exists
+            const existingUser = users.find(u => u.username === username);
+            if (existingUser) {
+                alert('Username already exists. Please choose another username.');
+                return;
+            }
+
+            // Add new user to the list
+            users.push({ username, password });
+
+            // Save updated users data to localStorage
+            localStorage.setItem('users', JSON.stringify(users));
+
+            // Directly login the user after signup
+            localStorage.setItem('loggedInUser', username);
+
+            // Redirect to dashboard
+            window.location.href = 'dashboard.html';
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h2>Signup</h2>
+        <label for="username">Username:</label>
+        <input type="text" id="username" required><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" required><br>
+        <button class="button" onclick="signup()">Signup</button>
+    </div>
+</body>
+</html>
