@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Starszz Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loggedInUser = localStorage.getItem('loggedInUser');
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            let applications = JSON.parse(localStorage.getItem('applications')) || [];
+
+            // Check user role
+            const user = users.find(u => u.username === loggedInUser);
+            if (!user) {
+                console.error('User data not found');
+                return;
+            }
+
+            // Display username
+            document.getElementById('loggedInUser').textContent = loggedInUser;
+
+            // Show/hide application form based on user role
+            if (user.role === 'regular') {
+                document.getElementById('applicationForm').style.display = 'block';
+            } else {
+                document.getElementById('applicationForm').style.display = 'none';
+            }
+
+            // Populate and manage applications list
+            const applicationsList = document.getElementById('applicationsList');
+            applicationsList.innerHTML = ''; // Clear previous entries
+
+            applications.forEach((app, index) => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `Application by ${app.username}`;
+
+                if (user.role === 'admin' || loggedInUser === 'dxx') {
+                    const approveBtn = document.createElement('button');
+                    approveBtn.textContent = 'Approve';
+                    approveBtn.addEventListener('click', () => approveApplication(index));
+                    listItem.appendChild(approveBtn);
+
+                    const declineBtn = document.createElement('button');
+                    declineBtn.textContent = 'Decline';
+                    declineBtn.addEventListener('click', () => declineApplication(index));
+                    listItem.appendChild(declineBtn);
+                }
+
+                applicationsList.appendChild(listItem);
+            });
+
+            document.getElementById('appForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const token = document.getElementById('token').value;
+                const secret = document.getElementById('secret').value;
+                const guildId = document.getElementById('guildId').value;
+                const clientId = document.getElementById('clientId').value;
+                const verifiedRoleId = document.getElementById('verifiedRoleId').value;
+                const ownerId = document.getElementById('ownerId').value;
+                const logsChannelId = document.getElementById('logsChannelId').value;
+
+                const newApplication = {
+                    username: loggedInUser,
+                    token,
+                    secret,
+                    guildId,
+                    clientId,
+                    verifiedRoleId,
+                    ownerId,
+                    logsChannelId,
+                    status: 'Pending'
+                };
+
+                applications.push(newApplication);
+                localStorage.setItem('applications', JSON.stringify(applications));
+                document.getElementById('applicationMessage').textContent = 'Successfully Submitted';
+
+                // Optionally clear the form
+                document.getElementById('appForm').reset();
+            });
+
+            function approveApplication(index) {
+                applications[index].status = 'Approved';
+                localStorage.setItem('applications', JSON.stringify(applications));
+                updateApplicationsList();
+            }
+
+            function declineApplication(index) {
+                applications[index].status = 'Declined';
+                localStorage.setItem('applications', JSON.stringify(applications));
+                updateApplicationsList();
+            }
+
+            function updateApplicationsList() {
+                applicationsList.innerHTML = '';
+                applications.forEach((app, index) => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `Application by ${app.username}`;
+
+                    if (user.role === 'admin' || loggedInUser === 'dxx') {
+                        const approveBtn = document.createElement('button');
+                        approveBtn.textContent = 'Approve';
+                        approveBtn.addEventListener('click', () => approveApplication(index));
+                        listItem.appendChild(approveBtn);
+
+                        const declineBtn = document.createElement('button');
+                        declineBtn.textContent = 'Decline';
+                        declineBtn.addEventListener('click', () => declineApplication(index));
+                        listItem.appendChild(declineBtn);
+                    }
+
+                    applicationsList.appendChild(listItem);
+                });
+
+                if (user.role === 'regular') {
+                    updateApplicationStatus();
+                }
+            }
+
+            function updateApplicationStatus() {
+                document.getElementById('applicationStatus').innerHTML = ''; // Clear previous statuses
+                applications.forEach((app) => {
+                    if (app.username === loggedInUser) {
+                        const statusMessage = document.createElement('p');
+                        statusMessage.textContent = `Your application status: ${app.status}`;
+                        document.getElementById('applicationStatus').appendChild(statusMessage);
+                    }
+                });
+            }
+
+            if (user.role === 'regular') {
+                updateApplicationStatus();
+            }
+
+            // Logout functionality
+            document.getElementById('logoutButton').addEventListener('click', function() {
+                localStorage.removeItem('loggedInUser
