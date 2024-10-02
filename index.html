@@ -1,1 +1,84 @@
-<h3>javascript:(function () {var a = document.createElement('script');a.src = 'https://cdn.jsdelivr.net/gh/FogNetwork/Ingot/ingot.min.js';document.body.appendChild(a);}())</h3>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultraviolet Unblocker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ultraviolet Unblocker</h1>
+    <form id="unblockForm">
+        <input type="text" id="site" placeholder="Enter URL to unblock" required>
+        <button type="submit">Unblock</button>
+    </form>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('unblockForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form from submitting normally
+            const site = document.getElementById('site').value;
+
+            // Fetch the unblocker service from Render
+            fetch(`https://ultraviolet-node-js-server.onrender.com/service/${encodeURIComponent(site)}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    document.getElementById('result').innerHTML = `<strong>${data.message}</strong>`;
+                    document.getElementById('result').style.display = 'block';
+                })
+                .catch(error => {
+                    document.getElementById('result').innerHTML = `<strong>Error: ${error.message}</strong>`;
+                    document.getElementById('result').style.display = 'block';
+                });
+        });
+    </script>
+</body>
+</html>
