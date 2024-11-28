@@ -1,6 +1,6 @@
 {
-  "name": "Schedule",
-  "short_name": "Schedule",
+  "name": "Homework",
+  "short_name": "Homework",
   "description": "A simple event scheduler to organize your week.",
   "start_url": "/",
   "display": "standalone",
