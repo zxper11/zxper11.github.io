@@ -1,6 +1,6 @@
 {
-  "name": "Event Scheduler",
-  "short_name": "Event Scheduler",
+  "name": "Schedule",
+  "short_name": "Schedule",
   "description": "A simple event scheduler to organize your week.",
   "start_url": "/",
   "display": "standalone",
