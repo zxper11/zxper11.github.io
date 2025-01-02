@@ -1,1 +1,48 @@
-<iframe src="https://www.2embed.cc/embed/tt0264464" width="100%" height="100%" frameborder="0" scrolling="no" allowfullscreen></iframe>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fullscreen Secure Video</title>
+
+    <style>
+        /* Fullscreen layout */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #000; /* Ensure a black background for any gaps */
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <iframe 
+        src="https://www.2embed.cc/embed/tt0264464" 
+        sandbox="allow-same-origin allow-scripts allow-presentation" 
+        allow="autoplay; fullscreen" 
+        allowfullscreen>
+    </iframe>
+
+    <script>
+        // Block iframe redirections using JavaScript
+        document.querySelector('iframe').addEventListener('load', function() {
+            try {
+                this.contentWindow.addEventListener('beforeunload', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log("Blocked iframe redirect!");
+                });
+            } catch (error) {
+                console.error("Could not add redirection blocker:", error);
+            }
+        });
+    </script>
+</body>
+</html>
