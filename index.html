@@ -30,20 +30,48 @@
     </iframe>
 
     <script>
-        // Monitor and auto-close new tabs opened by the iframe
-        const originalWindowOpen = window.open;
-        
-        // Override the `window.open` method
-        window.open = function(url, name, specs) {
-            const newTab = originalWindowOpen.call(window, url, name, specs);
-            if (newTab) {
-                console.log("New tab detected and closed:", url);
-                newTab.close(); // Automatically close the new tab
-            }
-            return null; // Prevent further handling
-        };
+    // List to track and close any opened tabs
+        const openedTabs = new Set();
 
-        console.log("Iframe tab-monitoring is active.");
+        // Override window.open globally
+        (function monitorWindowOpen() {
+            const originalWindowOpen = window.open;
+
+            window.open = function(url, name, specs) {
+                const newTab = originalWindowOpen.call(window, url, name, specs);
+                if (newTab) {
+                    console.log("New tab detected and closed:", url);
+                    newTab.close();
+                    openedTabs.add(newTab);
+                }
+                return null; // Prevent further handling
+            };
+
+            // Polling loop to detect and close any manually opened tabs
+            setInterval(() => {
+                for (const tab of openedTabs) {
+                    if (!tab.closed) {
+                        tab.close();
+                        console.log("Force-closed a tab.");
+                    }
+                }
+            }, 500); // Check every 500ms
+        })();
+
+        // Periodically check for iframe-triggered new tabs
+        setInterval(() => {
+            try {
+                // Scan for links inside the iframe
+                const iframe = document.querySelector('iframe');
+                const links = iframe.contentDocument.querySelectorAll('a[target="_blank"]');
+
+                links.forEach(link => {
+                    link.target = "_self"; // Force links to open in the same tab
+                });
+            } catch (err) {
+                console.warn("Unable to access iframe links:", err);
+            }
+        }, 1000); // Check every second
     </script>
 </body>
 </html>
