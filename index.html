@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catch Me If You Can</title>
+    <title>Movie</title>
 
     <style>
         /* Fullscreen layout */
@@ -30,18 +30,20 @@
     </iframe>
 
     <script>
-        // Block iframe redirections using JavaScript
-        document.querySelector('iframe').addEventListener('load', function() {
-            try {
-                this.contentWindow.addEventListener('beforeunload', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    console.log("Blocked iframe redirect!");
-                });
-            } catch (error) {
-                console.error("Could not add redirection blocker:", error);
+        // Monitor and auto-close new tabs opened by the iframe
+        const originalWindowOpen = window.open;
+        
+        // Override the `window.open` method
+        window.open = function(url, name, specs) {
+            const newTab = originalWindowOpen.call(window, url, name, specs);
+            if (newTab) {
+                console.log("New tab detected and closed:", url);
+                newTab.close(); // Automatically close the new tab
             }
-        });
+            return null; // Prevent further handling
+        };
+
+        console.log("Iframe tab-monitoring is active.");
     </script>
 </body>
 </html>
