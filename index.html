@@ -1,1 +1,178 @@
-<h1>welcoming my betting</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chat Interface</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .chat-container {
+            width: 100%;
+            max-width: 600px;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            height: 90vh;
+            overflow: hidden;
+        }
+
+        .chat-window {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            display: flex;
+            max-width: 85%;
+            margin-bottom: 15px;
+        }
+
+        .user-message {
+            justify-content: flex-end;
+        }
+
+        .ai-message {
+            justify-content: flex-start;
+        }
+
+        .message-bubble {
+            padding: 12px;
+            border-radius: 20px;
+            font-size: 16px;
+            max-width: 80%;
+            word-wrap: break-word;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-message .message-bubble {
+            background-color: #007bff;
+            color: white;
+            border-top-left-radius: 20px;
+            border-bottom-left-radius: 20px;
+            text-align: right;
+        }
+
+        .ai-message .message-bubble {
+            background-color: #e5e5e5;
+            color: #333;
+            border-top-right-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+
+        .input-container {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-top: 1px solid #e0e0e0;
+            background-color: #fff;
+            position: relative;
+        }
+
+        .input-box {
+            width: 100%;
+            height: 50px;
+            padding: 0 20px;
+            font-size: 16px;
+            border-radius: 30px;
+            border: 1px solid #e0e0e0;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .input-box:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+        }
+
+        .send-button {
+            position: absolute;
+            right: 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .send-button:hover {
+            background-color: #0056b3;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .send-button:active {
+            background-color: #004085;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-window" id="chat-window"></div>
+        <div class="input-container">
+            <input type="text" id="user-input" class="input-box" placeholder="Type a message..." />
+            <button class="send-button" onclick="sendMessage()">➤</button>
+        </div>
+    </div>
+
+    <script>
+        // Set the backend URL (update this with your actual backend URL)
+        const backendUrl = "https://your-flask-app.onrender.com/chat"; // or your URL from Heroku
+
+        // Add new message to the chat window
+        function addMessageToChat(message, sender) {
+            const chatWindow = document.getElementById('chat-window');
+            const messageBubble = document.createElement('div');
+            messageBubble.classList.add('message', sender === 'user' ? 'user-message' : 'ai-message');
+            messageBubble.innerHTML = `<div class="message-bubble">${message}</div>`;
+            chatWindow.appendChild(messageBubble);
+            chatWindow.scrollTop = chatWindow.scrollHeight; // Scroll to the bottom
+        }
+
+        // Send message and get response from the backend
+        async function sendMessage() {
+            const userInput = document.getElementById('user-input').value;
+            if (userInput.trim() === "") return;
+
+            // Display user's message
+            addMessageToChat(userInput, 'user');
+            document.getElementById('user-input').value = ''; // Clear input field
+
+            try {
+                // Send message to the backend
+                const response = await fetch(backendUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: userInput })
+                });
+
+                // Get the result from the backend
+                const data = await response.json();
+                const aiResponse = data.result;
+
+                // Display AI's response
+                addMessageToChat(aiResponse, 'ai');
+            } catch (error) {
+                console.error("Error during API request:", error);
+            }
+        }
+    </script>
+</body>
+</html>
