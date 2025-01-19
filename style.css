@@ -172,3 +172,10 @@ div.footerNode {
     font-size: 12px;
     margin-top: 5px;
 }
+
+.error-message {
+    font-size: 12px;
+    color: red;
+    margin-top: 5px;
+    display: block;
+}
