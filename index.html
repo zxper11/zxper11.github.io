@@ -23,6 +23,9 @@
 
     <!-- Security: Prevent iframe from running scripts outside allowed domains -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; frame-src https://vidsrc.xyz;">
+
+    <!-- Prevent referrer from being sent to bypass anti-embed restrictions -->
+    <meta name="referrer" content="no-referrer">
 </head>
 <body>
 
@@ -31,6 +34,7 @@
         id="safeIframe" 
         src="https://vidsrc.xyz/embed/movie/tt9218128" 
         sandbox="allow-scripts allow-same-origin allow-forms"
+        allow="autoplay; fullscreen"
         allowfullscreen>
     </iframe>
 
