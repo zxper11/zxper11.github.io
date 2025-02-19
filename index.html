@@ -1,1 +1,62 @@
-hello
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safe Movie Embed</title>
+
+    <!-- Prevent iframe from executing scripts, opening pop-ups, or redirecting -->
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            background: black;
+        }
+        iframe {
+            width: 100vw;
+            height: 100vh;
+            border: none;
+        }
+    </style>
+
+    <!-- Security: Prevent iframe from running scripts outside allowed domains -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; frame-src https://vidsrc.xyz;">
+</head>
+<body>
+
+    <!-- Full-Screen Iframe with Sandbox Restrictions -->
+    <iframe 
+        id="safeIframe" 
+        src="https://vidsrc.xyz/embed/movie/tt9218128" 
+        sandbox="allow-scripts allow-same-origin allow-forms"
+        allowfullscreen>
+    </iframe>
+
+    <script>
+        const iframe = document.getElementById("safeIframe");
+
+        // 🚫 Block redirects inside the iframe
+        iframe.onload = function() {
+            try {
+                // Prevent redirects by blocking unload events
+                iframe.contentWindow.onbeforeunload = function() {
+                    console.warn("Blocked an iframe redirect!");
+                    return false;  // Prevents navigation
+                };
+
+                // 🚫 Block popups inside the iframe
+                iframe.contentWindow.open = function() {
+                    console.warn("Blocked a popup!");
+                    return null;
+                };
+
+            } catch (error) {
+                console.error("Unable to access iframe's contentWindow (same-origin policy may apply)");
+            }
+        };
+    </script>
+
+</body>
+</html>
