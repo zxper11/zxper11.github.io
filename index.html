@@ -1,62 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Safe Movie Embed</title>
-
-    <!-- Prevent iframe from executing scripts, opening pop-ups, or redirecting -->
+    <title>Vidsrc - Braveheart (1995)</title>
     <style>
         html, body {
             margin: 0;
-            padding: 0;
             height: 100%;
-            overflow: hidden;
-            background: black;
         }
+
         iframe {
-            width: 100vw;
-            height: 100vh;
+            width: 100%;
+            height: 100%;
             border: none;
+            display: block;
+        }
+
+        #fullscreenButton {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 10;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
         }
     </style>
-
-    <!-- Security: Prevent iframe from running scripts outside allowed domains -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; frame-src https://vidsrc.xyz;">
 </head>
+
 <body>
-
-    <!-- Full-Screen Iframe with Sandbox Restrictions -->
-    <iframe 
-        id="safeIframe" 
-        src="https://vidsrc.xyz/embed/movie/tt0112573" 
-        sandbox="allow-scripts allow-same-origin allow-forms"
-        allowfullscreen>
-    </iframe>
-
-    <script>
-        const iframe = document.getElementById("safeIframe");
-
-        // 🚫 Block redirects inside the iframe
-        iframe.onload = function() {
-            try {
-                // Prevent redirects by blocking unload events
-                iframe.contentWindow.onbeforeunload = function() {
-                    console.warn("Blocked an iframe redirect!");
-                    return false;  // Prevents navigation
-                };
-
-                // 🚫 Block popups inside the iframe
-                iframe.contentWindow.open = function() {
-                    console.warn("Blocked a popup!");
-                    return null;
-                };
-
-            } catch (error) {
-                console.error("Unable to access iframe's contentWindow (same-origin policy may apply)");
-            }
-        };
-    </script>
-
+    <iframe id="vidsrc" src="https://vidsrc.xyz/embed/movie/tt0112573" sandbox="allow-forms allow-same-origin allow-scripts" allowfullscreen></iframe>
 </body>
+
 </html>
