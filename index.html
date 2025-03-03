@@ -2,239 +2,81 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Airport Arrivals Parking</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download File</title>
     <style>
-        /* General Styles */
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body Style */
         body {
-            background-color: #f2f2f2;
-            font-family: 'Arial', sans-serif;
-            color: #333;
-            padding: 20px;
-        }
-
-        h2 {
-            text-align: center;
-            color: #444;
-            font-weight: 600;
-            margin-bottom: 30px;
-        }
-
-        /* Card Styling */
-        .card-container {
-            perspective: 1000px;
-            margin-bottom: 30px;
-        }
-
-        .card {
-            background: #fff;
-            border: none;
-            border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            height: 250px;
-            transition: transform 0.6s;
-            cursor: pointer;
-            transform-style: preserve-3d;
-            position: relative;
-        }
-
-        .card:hover {
-            transform: scale(1.05);
-        }
-
-        /* The actual card content */
-        .card-body {
-            text-align: center;
-            padding: 10px;
-        }
-
-        .card-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: #444;
-        }
-
-        .card-text {
-            font-size: 14px;
-            color: #666;
-        }
-
-        /* Card flip styles */
-        .card-inner {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            transform: rotateY(0deg);
-        }
-
-        .card-front, .card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
-            border-radius: 12px;
-        }
-
-        .card-front {
-            background-color: #f9f9f9;
-        }
-
-        .card-back {
-            background-color: #e6e6e6;
-            transform: rotateY(180deg);
-            padding: 15px;
-        }
-
-        .card-info {
-            font-size: 14px;
-            color: #333;
-            text-align: center;
-        }
-
-        /* Parking info */
-        .parking-info {
-            font-size: 16px;
-            color: #444;
-            font-weight: 500;
-        }
-
-        /* Image size */
-        .card-front img {
-            width: 80%;
-            height: 100px;
-            object-fit: cover;
-            border-radius: 12px;
+            height: 100vh;
+            margin: 0;
         }
 
         /* Container Styling */
         .container {
-            max-width: 1200px;
+            text-align: center;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
         }
 
-        .row-cols-1 {
-            justify-content: center;
+        /* Headline */
+        .headline {
+            font-size: 36px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* Description */
+        .description {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        /* Button Styling */
+        .download-btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background-color: #007BFF;
+            color: white;
+            font-size: 18px;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .download-btn:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
-
-<div class="container">
-    <h2>Airport Arrivals Parking Levels</h2>
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-
-        <!-- Heathrow Airport -->
-        <div class="col">
-            <div class="card-container" onclick="toggleFlip('heathrow')">
-                <div id="heathrow" class="card">
-                    <div class="card-inner">
-                        <div class="card-front">
-                            <img src="https://images.pexels.com/photos/1396108/pexels-photo-1396108.jpeg" alt="Heathrow Airport">
-                            <div class="card-body">
-                                <h5 class="card-title">Heathrow Airport</h5>
-                                <p class="card-text">Click to see parking levels</p>
-                            </div>
-                        </div>
-                        <div class="card-back">
-                            <div class="parking-info">
-                                Terminal 2: Level 1<br>
-                                Terminal 3: Ground Level<br>
-                                Terminal 4: Ground Level<br>
-                                Terminal 5: Ground Level
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Gatwick Airport -->
-        <div class="col">
-            <div class="card-container" onclick="toggleFlip('gatwick')">
-                <div id="gatwick" class="card">
-                    <div class="card-inner">
-                        <div class="card-front">
-                            <img src="https://images.pexels.com/photos/1285817/pexels-photo-1285817.jpeg" alt="Gatwick Airport">
-                            <div class="card-body">
-                                <h5 class="card-title">Gatwick Airport</h5>
-                                <p class="card-text">Click to see parking levels</p>
-                            </div>
-                        </div>
-                        <div class="card-back">
-                            <div class="parking-info">
-                                South Terminal: Level 2<br>
-                                North Terminal: Ground Level
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Stansted Airport -->
-        <div class="col">
-            <div class="card-container" onclick="toggleFlip('stansted')">
-                <div id="stansted" class="card">
-                    <div class="card-inner">
-                        <div class="card-front">
-                            <img src="https://images.pexels.com/photos/1069589/pexels-photo-1069589.jpeg" alt="Stansted Airport">
-                            <div class="card-body">
-                                <h5 class="card-title">Stansted Airport</h5>
-                                <p class="card-text">Click to see parking levels</p>
-                            </div>
-                        </div>
-                        <div class="card-back">
-                            <div class="parking-info">
-                                Ground Level
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Luton Airport -->
-        <div class="col">
-            <div class="card-container" onclick="toggleFlip('luton')">
-                <div id="luton" class="card">
-                    <div class="card-inner">
-                        <div class="card-front">
-                            <img src="https://images.pexels.com/photos/1512352/pexels-photo-1512352.jpeg" alt="Luton Airport">
-                            <div class="card-body">
-                                <h5 class="card-title">Luton Airport</h5>
-                                <p class="card-text">Click to see parking levels</p>
-                            </div>
-                        </div>
-                        <div class="card-back">
-                            <div class="parking-info">
-                                Ground Level
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+    <div class="container">
+        <h1 class="headline">Download Your File</h1>
+        <p class="description">Click the button below to download your file!</p>
+        <a href="_Airports_18631629.apk" class="download-btn" download>Download Now</a>
     </div>
-</div>
 
-<script>
-    function toggleFlip(id) {
-        var card = document.getElementById(id);
-        var cardInner = card.querySelector('.card-inner');
-
-        if (cardInner.style.transform === "rotateY(180deg)") {
-            cardInner.style.transform = "rotateY(0deg)";
-        } else {
-            cardInner.style.transform = "rotateY(180deg)";
-        }
-    }
-</script>
-
+    <script>
+        // Optional JavaScript code if you need to track the download or add any functionality
+        document.querySelector('.download-btn').addEventListener('click', function() {
+            alert('Your download will begin soon!');
+        });
+    </script>
 </body>
 </html>
