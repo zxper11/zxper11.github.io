@@ -1,0 +1,132 @@
+:root {
+  --bg: #0e0e12;
+  --glass: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --text: #c084fc;
+  --text-light: #d1b3ff;
+  --hover: #a855f7;
+  --badge-bg: rgba(255, 255, 255, 0.08);
+  --badge-border: rgba(255, 255, 255, 0.1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Courier New', Courier, monospace;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.glass-box {
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 60px 40px;
+  width: 500px;
+  max-width: 90%;
+  box-shadow: 0 0 30px rgba(0,0,0,0.3);
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.glass-box:hover {
+  box-shadow: 0 0 50px rgba(168, 85, 247, 0.25);
+  transform: translateY(-3px);
+}
+
+.typewriter {
+  font-size: 2.8rem;
+  border-right: 2px solid var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  width: 0;
+  margin: 0 auto;
+  animation: typing 1.5s steps(5, end) forwards, blink 0.8s step-end infinite;
+}
+
+.subtitle {
+  margin-top: 12px;
+  font-size: 1.1rem;
+  color: var(--text-light);
+}
+
+.tech-stack {
+  margin: 25px 0;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.stack-logo {
+  text-align: center;
+}
+
+.stack-logo i {
+  font-size: 50px;
+  color: var(--text);
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.stack-logo i:hover {
+  transform: scale(1.1);
+  filter: brightness(1.4);
+}
+
+.stack-logo p {
+  margin-top: 8px;
+  color: var(--text-light);
+  font-size: 1rem;
+}
+
+.selling-text {
+  margin-top: 20px;
+  font-size: 1.1rem;
+  color: var(--text-light);
+}
+
+.social-links {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.social-btn {
+  background: var(--glass);
+  padding: 12px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  text-decoration: none;
+  color: var(--text-light);
+  font-size: 1.5rem;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.social-btn:hover {
+  background: var(--hover);
+  color: #fff;
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 5ch; }
+}
+
+@keyframes blink {
+  50% { border-color: transparent; }
+}
