@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maths Ed | Accredited GCSE & A-Level Excellence</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS STYLES --- */
+        :root {
+            --primary: #003366; /* Oxford Blue */
+            --accent: #0056b3;  /* Bright Blue */
+            --light: #f4f7fa;   /* Off White Blue */
+            --white: #ffffff;
+            --text: #1a202c;
+            --gold: #d4af37;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Outfit', sans-serif; 
+            color: var(--text); 
+            line-height: 1.6; 
+            background: var(--white);
+            scroll-behavior: smooth;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 8%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+        }
+        .logo { font-size: 1.8rem; font-weight: 800; color: var(--primary); letter-spacing: -1px; }
+        .logo span { color: var(--accent); font-weight: 300; }
+        .nav-links a { text-decoration: none; color: var(--text); margin-left: 30px; font-weight: 600; font-size: 0.95rem; transition: 0.3s; }
+        .nav-links a:hover { color: var(--accent); }
+        .btn-portal { background: var(--primary); color: white !important; padding: 10px 22px; border-radius: 8px; }
+
+        /* Hero Section */
+        .hero {
+            padding: 100px 8%;
+            background: radial-gradient(circle at top right, #eef5ff, #ffffff);
+            text-align: center;
+        }
+        .badge-top {
+            display: inline-block;
+            background: #e0ebff;
+            color: var(--primary);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        h1 { font-size: 4rem; line-height: 1.1; margin-bottom: 20px; font-weight: 800; color: var(--primary); }
+        .hero p { max-width: 700px; margin: 0 auto 40px; font-size: 1.3rem; color: #4a5568; }
+        .cta-btns { display: flex; justify-content: center; gap: 20px; }
+        .btn-main { background: var(--primary); color: white; text-decoration: none; padding: 18px 35px; border-radius: 12px; font-weight: 700; transition: 0.3s; box-shadow: 0 10px 20px rgba(0,51,102,0.15); }
+        .btn-main:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(0,51,102,0.25); }
+
+        /* Trust/Accreditation Section */
+        .trust-bar { padding: 50px 8%; text-align: center; background: #fff; border-bottom: 1px solid #edf2f7; }
+        .trust-bar h4 { font-size: 0.75rem; color: #a0aec0; letter-spacing: 3px; margin-bottom: 30px; }
+        .logos { display: flex; justify-content: space-around; flex-wrap: wrap; gap: 30px; opacity: 0.5; filter: grayscale(1); }
+        .logo-item { font-weight: 800; font-size: 1.4rem; color: var(--primary); }
+
+        /* Content Grid */
+        .curriculum { padding: 100px 8%; background: var(--light); }
+        .section-title { text-align: center; margin-bottom: 60px; }
+        .section-title h2 { font-size: 2.5rem; color: var(--primary); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .card { 
+            background: white; 
+            padding: 40px; 
+            border-radius: 20px; 
+            border: 1px solid #e2e8f0; 
+            transition: 0.4s;
+        }
+        .card:hover { transform: translateY(-10px); border-color: var(--accent); }
+        .card h3 { color: var(--primary); margin: 15px 0; font-size: 1.5rem; }
+        .card ul { list-style: none; color: #64748b; }
+        .card li { margin-bottom: 10px; display: flex; align-items: center; }
+        .card li::before { content: '→'; color: var(--accent); margin-right: 10px; font-weight: bold; }
+
+        /* Certificate Section */
+        .certificate-zone { 
+            padding: 100px 8%; 
+            background: var(--primary); 
+            color: white; 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 50px; 
+            align-items: center;
+            overflow: hidden;
+        }
+        .cert-container { perspective: 1000px; }
+        .certificate {
+            background: white;
+            color: #222;
+            padding: 40px;
+            border-radius: 4px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+            border: 12px double var(--gold);
+            text-align: center;
+            transform: rotateY(-10deg) rotateX(5deg);
+            transition: 0.1s;
+        }
+        .cert-header { font-weight: 800; border-bottom: 2px solid var(--gold); display: inline-block; padding-bottom: 5px; margin-bottom: 20px; color: var(--gold); }
+        .student-name { font-family: serif; font-size: 2.5rem; font-style: italic; margin: 20px 0; color: var(--primary); }
+        .cert-body { font-size: 0.9rem; color: #555; max-width: 80%; margin: 0 auto; }
+        .seal { width: 70px; height: 70px; background: var(--gold); border-radius: 50%; margin: 25px auto; display: flex; align-items: center; justify-content: center; font-size: 0.5rem; font-weight: 900; color: white; border: 4px double white; }
+
+        footer { padding: 40px; text-align: center; background: #001a33; color: #718096; font-size: 0.9rem; }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .grid, .certificate-zone { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">MATHS<span>ED</span></div>
+        <div class="nav-links">
+            <a href="#about">Our Aim</a>
+            <a href="#curriculum">Curriculum</a>
+            <a href="#accreditation">Accreditation</a>
+            <a href="#" class="btn-portal">Login</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <span class="badge-top">UK Department for Education Standards</span>
+        <h1>Unlock Your <span style="color:var(--accent)">Mathematical</span> Genius.</h1>
+        <p>Specialized GCSE and A-Level support designed by top-tier educators to help you master exams with confidence and clarity.</p>
+        <div class="cta-btns">
+            <a href="#curriculum" class="btn-main">Browse Resources</a>
+            <a href="#cert" class="btn-main" style="background:transparent; border: 2px solid var(--primary); color: var(--primary);">View Sample Cert</a>
+        </div>
+    </header>
+
+    <section class="trust-bar" id="accreditation">
+        <h4>ACCREDITED & RECOGNIZED PROVIDER</h4>
+        <div class="logos">
+            <div class="logo-item">UK-EDU <span>BOARD</span></div>
+            <div class="logo-item">STEM <span>ALLIANCE</span></div>
+            <div class="logo-item">QUAL <span>VERIFIED</span></div>
+            <div class="logo-item">OX <span>EXAM ADVISORY</span></div>
+        </div>
+    </section>
+
+    <section class="curriculum" id="curriculum">
+        <div class="section-title">
+            <h2>Our Learning Tracks</h2>
+            <p>Comprehensive support for every stage of your mathematical journey.</p>
+        </div>
+        <div class="grid">
+            <div class="card">
+                <span style="font-size: 2rem;">📐</span>
+                <h3>GCSE Foundations</h3>
+                <ul>
+                    <li>Algebraic manipulation</li>
+                    <li>Geometry & Trigonometry</li>
+                    <li>Probability & Ratio</li>
+                </ul>
+            </div>
+            <div class="card">
+                <span style="font-size: 2rem;">📈</span>
+                <h3>A-Level Pure</h3>
+                <ul>
+                    <li>Advanced Calculus</li>
+                    <li>Complex Number Theory</li>
+                    <li>Coordinate Geometry</li>
+                </ul>
+            </div>
+            <div class="card">
+                <span style="font-size: 2rem;">⚙️</span>
+                <h3>A-Level Applied</h3>
+                <ul>
+                    <li>Statistical Distributions</li>
+                    <li>Newtonian Mechanics</li>
+                    <li>Data Interpretation</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="certificate-zone" id="cert">
+        <div>
+            <h2 style="font-size: 3rem; margin-bottom: 20px;">Get Certified. <br>Get Ahead.</h2>
+            <p style="font-size: 1.2rem; opacity: 0.9; margin-bottom: 30px;">Every module you complete earns you a verified certificate of achievement. Enhance your UCAS application and prove your mastery to top universities.</p>
+            <ul style="list-style: none;">
+                <li style="margin-bottom: 10px;">✅ Accredited by National STEM Boards</li>
+                <li style="margin-bottom: 10px;">✅ Unique ID for University Verification</li>
+                <li style="margin-bottom: 10px;">✅ Signed by Lead Examiners</li>
+            </ul>
+        </div>
+        <div class="cert-container" id="certMove">
+            <div class="certificate" id="certCard">
+                <div class="cert-header">CERTIFICATE OF ACHIEVEMENT</div>
+                <p>This is to certify that</p>
+                <h3 class="student-name">Jane Doe</h3>
+                <p class="cert-body">has successfully completed the <strong>Mastery of A-Level Differentiation</strong> with an assessment score of <strong>98% (A*)</strong>.</p>
+                <div class="seal">OFFICIAL SEAL</div>
+                <div style="display: flex; justify-content: space-around; font-size: 0.6rem; margin-top: 20px; border-top: 1px solid #eee; padding-top: 10px;">
+                    <div><span>Director of Mathematics</span></div>
+                    <div><span>Lead Exam Officer</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Maths Ed Education Ltd. Registered in England & Wales. Supporting the next generation of mathematicians.</p>
+    </footer>
+
+    <script>
+        /* --- JAVASCRIPT --- */
+        
+        // Parallax Effect for Certificate
+        const certCard = document.getElementById('certCard');
+        const certMove = document.getElementById('certMove');
+
+        certMove.addEventListener('mousemove', (e) => {
+            const rect = certMove.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const rotateX = (y - centerY) / 10;
+            const rotateY = (centerX - x) / 10;
+
+            certCard.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+        });
+
+        certMove.addEventListener('mouseleave', () => {
+            certCard.style.transform = `rotateX(5deg) rotateY(-10deg) scale(1)`;
+            certCard.style.transition = "transform 0.5s ease";
+        });
+
+        certMove.addEventListener('mouseenter', () => {
+            certCard.style.transition = "none";
+        });
+
+        // Smooth reveal on scroll
+        window.addEventListener('scroll', () => {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                const cardTop = card.getBoundingClientRect().top;
+                if(cardTop < window.innerHeight - 100) {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }
+            });
+        });
+
+        // Initialize cards for animation
+        document.querySelectorAll('.card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = '0.6s ease-out';
+        });
+    </script>
+</body>
+</html>
